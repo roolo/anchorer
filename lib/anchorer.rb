@@ -27,11 +27,22 @@ module Anchorer
       # Fix adressess
       output_content.gsub! /((src|href)=")\//, '\\2="%s://%s/'%[@original_url.scheme, @original_url.host]
 
+      # Add original content link
+      output_content.gsub! /(<\/body>)/, link_box('top')
+
       output_content
     end
 
-    def host
-
+    def link_box placement
+      <<-LINKBOX
+        <p style="position:absolute;#{placement}:0;left:50%;">
+          <a  href="#{@original_url}"
+              name="original-conent-link"
+              style="color:#94C1BC;background-color:#ECECDA;font-size:10px;padding:10px">
+            Original page
+          </a>
+        </p>\\1
+      LINKBOX
     end
   end
 end
