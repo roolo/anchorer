@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Switching to Vundle - Code7 Interactive</title>
+    <meta name="description" content="I’ve decided to use Vundle the Vim package manager.">
+    <meta name="author" content="Peter Hellberg">
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Switching to Vundle" />
+    <meta property="og:site_name" content="Code7 Interactive" />
+    <meta property="og:description" content="I’ve decided to use Vundle the Vim package manager." />
+    <meta property="article:published_time" content="2013-04-27T00:00:00+02:00" />
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-touch-icon-114x114.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <body>
+    <div>
+      <div class="container">
+        <div class="row">
+          <header class="sixteen columns" id="main_header">
+            <a class="logo_link" href="/">
+              <h1 id="logo">code7 <span class="font-normal">interactive</span></h1>
+            </a>
+          </header>
+        </div>
+        <div class="row">
+  <div class="sixteen columns hentry" id="article">
+    <article>
+      <h1 class='entry-title'>Switching to Vundle</h1>
+      <h2><div class='entry-summary'>I’ve decided to use Vundle the Vim package manager.</div></h2>
+      <section class='article-content entry-content'>
+        <p>I’ve been using <a href="http://www.vim.org/">Vim</a> on and off for close
+to 10 years now and It became my primary editor when I switched from
+<a href="http://macromates.com/">TextMate</a> to
+<a href="https://code.google.com/p/macvim/">MacVim</a> a few years ago.
+<em>(Along with a lot of other people in the Ruby community)</em></p>
+
+<p>I started using the <a href="https://github.com/carlhuda/janus">Janus</a>
+distribution and never had any major issues with it.</p>
+
+<p>There have been a few <strong>minor</strong> performance issues though, issues
+that mostly stem from the large number of plugins and
+customizations that Janus brings to the table.</p>
+
+<p>I have decided to start over, this time being slightly
+more restrictive with my configuration. I’ve also decided to use
+<a href="https://github.com/gmarik/vundle">Vundle</a> for plugin management…</p>
+
+<blockquote><p>Vundle is short for <em>Vim bundle</em> and is a Vim plugin manager.</p></blockquote>
+
+<h2>Starting position</h2>
+
+<p>There is no point in making any changes until you have figured
+out what the current state is. You can see what Vim does when
+it starts up by calling the <strong>startuptime</strong> flag.</p>
+
+<p>In my case that would be:</p>
+
+<div class="highlight"><pre><code class="bash">mvim -v --startuptime /dev/stdout +qall
+</code></pre></div>
+
+
+<p>Which prints <strong>171</strong> lines of log output for Vi-mode and <strong>189</strong>
+for the GUI-mode.</p>
+
+<blockquote><p>You might want to take a look at
+<a href="http://usevim.com/2012/04/18/startuptime/">Improving Vim’s Startup Time</a>
+over at Usevim.</p></blockquote>
+
+<h3>Extra plugins</h3>
+
+<p>I’ve also installed a few extra plugins that doesn&rsquo;t come with the Janus distribution.
+I have the following directories under <code>.janus</code>:</p>
+
+<div class="highlight"><pre><code class="bash">BusyBee/
+vim-arduino/
+vim-markdown-preview/
+vim-nginx/
+vim-powerline/
+vim-ruby-xmpfilter/
+vim-slim/
+vim-textobj-rubyblock/
+vim-textobj-user/
+</code></pre></div>
+
+
+<h3>Disabled plugins</h3>
+
+<p>I had disabled a few plugins that came with Janus:</p>
+
+<div class="highlight"><pre><code class="bash">call janus#disable_plugin<span class="o">(</span><span class="s1">&#39;tagbar&#39;</span><span class="o">)</span>
+call janus#disable_plugin<span class="o">(</span><span class="s1">&#39;narrowregion&#39;</span><span class="o">)</span>
+call janus#disable_plugin<span class="o">(</span><span class="s1">&#39;easymotion&#39;</span><span class="o">)</span>
+call janus#disable_plugin<span class="o">(</span><span class="s1">&#39;vimwiki&#39;</span><span class="o">)</span>
+call janus#disable_plugin<span class="o">(</span><span class="s1">&#39;vroom&#39;</span><span class="o">)</span>
+call janus#disable_plugin<span class="o">(</span><span class="s1">&#39;buffergator&#39;</span><span class="o">)</span>
+</code></pre></div>
+
+
+<h2>A clean slate</h2>
+
+<p>My dotfiles live in a Git repo so it is quite trivial to
+create a new branch where I can make the required changes:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>git checkout -b switching-to-vundle
+</code></pre></div>
+
+
+<p>I just need to remove all traces of Janus by unlinking
+all the symlinks and removing all other related files.</p>
+
+<p>The resulting <strong>startuptime</strong> log is <strong>41</strong> lines long, <em>quite an improvement</em>.</p>
+
+<p>It is quite possible to use Vim on its own like this. I’ve come to
+love a few plugins and I’m happy to let the i7 in my Air work a
+bit in order to let me use them.</p>
+
+<h2><a href="https://github.com/gmarik/vundle">Vundle</a></h2>
+
+<p>I’m going to use Vundle for my plugins from now on, so I’ll need to install it:</p>
+
+<div class="highlight"><pre><code class="bash"><span class="nv">$ </span>mkdir ~/.vim/bundle
+<span class="nv">$ </span>git clone https://github.com/gmarik/vundle.git ~/.vim/bundle/vundle
+</code></pre></div>
+
+
+<p>Vundle makes it <strong>very</strong> easy to manage Vim plugins. You just need
+to specify a few rows along the lines of <code>Bundle "user/plugin"</code>
+in your <code>.vimrc</code> and then issue <code>:BundleInstall</code> to start the installation.</p>
+
+<p>You can also run <code>:BundleUpdate</code> and <code>:BundleClean</code></p>
+
+<h2>New .vimrc</h2>
+
+<p>Both <code>NERDTree</code> and <code>Syntastic</code> are quite slow.
+I could probably manage without them but what would be the fun in that?</p>
+
+<div class="highlight"><pre><code class="vim"><span class="k">set</span> <span class="nb">nocompatible</span>
+<span class="k">filetype</span> off
+
+<span class="k">set</span> <span class="nb">rtp</span><span class="p">+=~</span><span class="sr">/.vim/</span>bundle<span class="sr">/vundle/</span>
+<span class="k">call</span> vundle#rc<span class="p">()</span>
+
+<span class="c">&quot; Let Vundle manage Vundle</span>
+Bundle <span class="s1">&#39;gmarik/vundle&#39;</span>
+
+<span class="c">&quot; My Bundles</span>
+Bundle <span class="s1">&#39;tpope/vim-sensible&#39;</span>
+Bundle <span class="s1">&#39;tpope/vim-surround&#39;</span>
+Bundle <span class="s1">&#39;tpope/vim-fugitive&#39;</span>
+Bundle <span class="s1">&#39;tpope/vim-rails&#39;</span>
+Bundle <span class="s1">&#39;tpope/vim-rake&#39;</span>
+Bundle <span class="s1">&#39;nanotech/jellybeans.vim&#39;</span>
+Bundle <span class="s1">&#39;Lokaltog/vim-powerline&#39;</span>
+Bundle <span class="s1">&#39;scrooloose/syntastic&#39;</span>
+Bundle <span class="s1">&#39;scrooloose/nerdtree&#39;</span>
+Bundle <span class="s1">&#39;kien/ctrlp.vim&#39;</span>
+Bundle <span class="s1">&#39;rking/ag.vim&#39;</span>
+Bundle <span class="s1">&#39;kana/vim-textobj-user&#39;</span>
+Bundle <span class="s1">&#39;nelstrom/vim-textobj-rubyblock&#39;</span>
+Bundle <span class="s1">&#39;slim-template/vim-slim&#39;</span>
+
+<span class="k">filetype</span> plugin indent <span class="k">on</span>
+
+<span class="k">let</span> mapleader<span class="p">=</span><span class="s2">&quot;,&quot;</span>
+
+<span class="k">color</span> jellybeans
+
+<span class="k">set</span> <span class="nb">cursorline</span>
+<span class="k">set</span> <span class="nb">expandtab</span>
+<span class="k">set</span> <span class="nb">modelines</span><span class="p">=</span><span class="m">0</span>
+<span class="k">set</span> <span class="nb">shiftwidth</span><span class="p">=</span><span class="m">2</span>
+<span class="k">set</span> <span class="nb">clipboard</span><span class="p">=</span>unnamed
+<span class="k">set</span> <span class="nb">synmaxcol</span><span class="p">=</span><span class="m">128</span>
+<span class="k">set</span> <span class="nb">ttyscroll</span><span class="p">=</span><span class="m">10</span>
+<span class="k">set</span> <span class="nb">encoding</span><span class="p">=</span>utf<span class="m">-8</span>
+<span class="k">set</span> <span class="nb">tabstop</span><span class="p">=</span><span class="m">2</span>
+<span class="k">set</span> <span class="nb">nowrap</span>
+<span class="k">set</span> <span class="k">number</span>
+<span class="k">set</span> <span class="nb">expandtab</span>
+<span class="k">set</span> <span class="nb">nowritebackup</span>
+<span class="k">set</span> <span class="nb">noswapfile</span>
+<span class="k">set</span> <span class="nb">nobackup</span>
+<span class="k">set</span> <span class="nb">hlsearch</span>
+<span class="k">set</span> <span class="nb">ignorecase</span>
+<span class="k">set</span> <span class="nb">smartcase</span>
+
+<span class="c">&quot; Automatic formatting</span>
+autocmd <span class="nb">BufWritePre</span> *.rb :%<span class="k">s</span><span class="sr">/\s\+$/</span>/<span class="k">e</span>
+autocmd <span class="nb">BufWritePre</span> *.<span class="k">go</span> :%<span class="k">s</span><span class="sr">/\s\+$/</span>/<span class="k">e</span>
+autocmd <span class="nb">BufWritePre</span> *.haml :%<span class="k">s</span><span class="sr">/\s\+$/</span>/<span class="k">e</span>
+autocmd <span class="nb">BufWritePre</span> *.html :%<span class="k">s</span><span class="sr">/\s\+$/</span>/<span class="k">e</span>
+autocmd <span class="nb">BufWritePre</span> *.scss :%<span class="k">s</span><span class="sr">/\s\+$/</span>/<span class="k">e</span>
+autocmd <span class="nb">BufWritePre</span> *.slim :%<span class="k">s</span><span class="sr">/\s\+$/</span>/<span class="k">e</span>
+
+<span class="k">au</span> <span class="nb">BufNewFile</span> * <span class="k">set</span> <span class="nb">noeol</span>
+<span class="k">au</span> <span class="nb">BufRead</span><span class="p">,</span><span class="nb">BufNewFile</span> *.<span class="k">go</span> <span class="k">set</span> <span class="k">filetype</span><span class="p">=</span><span class="k">go</span>
+
+<span class="c">&quot; No show command</span>
+autocmd <span class="nb">VimEnter</span> * <span class="k">set</span> <span class="nb">nosc</span>
+
+<span class="c">&quot; Quick ESC</span>
+imap jj <span class="p">&lt;</span>ESC<span class="p">&gt;</span>
+
+<span class="c">&quot; Jump to the next row on long lines</span>
+map <span class="p">&lt;</span>Down<span class="p">&gt;</span> gj
+map <span class="p">&lt;</span>Up<span class="p">&gt;</span>   gk
+<span class="nb">nnoremap</span> <span class="k">j</span> gj
+<span class="nb">nnoremap</span> <span class="k">k</span> gk
+
+<span class="c">&quot; format the entire file</span>
+nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span>fef ggVG<span class="p">=</span>
+
+<span class="c">&quot; Open new buffers</span>
+nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">s</span><span class="p">&lt;</span><span class="k">left</span><span class="p">&gt;</span>   :<span class="k">leftabove</span>  <span class="k">vnew</span><span class="p">&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">s</span><span class="p">&lt;</span><span class="k">right</span><span class="p">&gt;</span>  :<span class="k">rightbelow</span> <span class="k">vnew</span><span class="p">&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">s</span><span class="p">&lt;</span><span class="k">up</span><span class="p">&gt;</span>     :<span class="k">leftabove</span>  <span class="k">new</span><span class="p">&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">s</span><span class="p">&lt;</span>down<span class="p">&gt;</span>   :<span class="k">rightbelow</span> <span class="k">new</span><span class="p">&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+
+<span class="c">&quot; Tab between buffers</span>
+<span class="nb">noremap</span> <span class="p">&lt;</span><span class="k">tab</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">w</span><span class="p">&gt;&lt;</span><span class="k">c</span><span class="p">-</span><span class="k">w</span><span class="p">&gt;</span>
+
+<span class="c">&quot; Switch between last two buffers</span>
+<span class="nb">nnoremap</span> <span class="p">&lt;</span>leader<span class="p">&gt;&lt;</span>leader<span class="p">&gt;</span> <span class="p">&lt;</span>C<span class="p">-</span>^<span class="p">&gt;</span>
+
+<span class="c">&quot; Resize buffers</span>
+<span class="k">if</span> bufwinnr<span class="p">(</span><span class="m">1</span><span class="p">)</span>
+  nmap Ä <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&lt;</span>
+  nmap Ö <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&gt;&lt;</span>C<span class="p">-</span>W<span class="p">&gt;&gt;</span>
+  nmap ö <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;-&lt;</span>C<span class="p">-</span>W<span class="p">&gt;-</span>
+  nmap ä <span class="p">&lt;</span>C<span class="p">-</span>W<span class="p">&gt;+&lt;</span>C<span class="p">-</span>W<span class="p">&gt;+</span>
+<span class="k">endif</span>
+
+<span class="c">&quot; NERDTree</span>
+nmap <span class="p">&lt;</span>leader<span class="p">&gt;</span><span class="k">n</span> :NERDTreeToggle<span class="p">&lt;</span>CR<span class="p">&gt;</span>
+<span class="k">let</span> NERDTreeHighlightCursorline<span class="p">=</span><span class="m">1</span>
+<span class="k">let</span> NERDTreeIgnore <span class="p">=</span> [<span class="s1">&#39;tmp&#39;</span><span class="p">,</span> <span class="s1">&#39;.yardoc&#39;</span><span class="p">,</span> <span class="s1">&#39;pkg&#39;</span>]
+
+<span class="c">&quot; Syntastic</span>
+<span class="k">let</span> <span class="k">g</span>:syntastic_mode_map <span class="p">=</span> { <span class="s1">&#39;mode&#39;</span>: <span class="s1">&#39;passive&#39;</span> }
+<span class="k">let</span> <span class="k">g</span>:syntastic_ruby_exec <span class="p">=</span> <span class="s1">&#39;~/.rvm/rubies/ruby-2.0.0-p0/bin/ruby&#39;</span>
+
+<span class="c">&quot; CtrlP</span>
+<span class="nb">nnoremap</span> <span class="p">&lt;</span><span class="k">silent</span><span class="p">&gt;</span> <span class="k">t</span> :CtrlP<span class="p">&lt;</span><span class="k">cr</span><span class="p">&gt;</span>
+<span class="k">let</span> <span class="k">g</span>:ctrlp_working_path_mode <span class="p">=</span> <span class="m">2</span>
+<span class="k">let</span> <span class="k">g</span>:ctrlp_by_filename <span class="p">=</span> <span class="m">1</span>
+<span class="k">let</span> <span class="k">g</span>:ctrlp_max_files <span class="p">=</span> <span class="m">600</span>
+<span class="k">let</span> <span class="k">g</span>:ctrlp_max_depth <span class="p">=</span> <span class="m">5</span>
+
+<span class="c">&quot; Go programming</span>
+<span class="k">set</span> <span class="nb">rtp</span><span class="p">+=</span><span class="sr">/usr/</span>local<span class="sr">/Cellar/</span><span class="k">go</span><span class="sr">/1.0.3/</span>misc/<span class="k">vim</span>
+
+<span class="c">&quot; Quit with :Q</span>
+command <span class="p">-</span>nargs<span class="p">=</span><span class="m">0</span> Quit :<span class="k">qa</span><span class="p">!</span>
+</code></pre></div>
+
+
+<h3>And a small .gvimrc</h3>
+
+<p>I like to keep the main part of the config
+in <code>.vimrc</code> in order to have as few differences
+between the GUI and CLI versions of MacVim.</p>
+
+<div class="highlight"><pre><code class="vim"><span class="c">&quot; MacVim GUI mode</span>
+<span class="k">if</span> has<span class="p">(</span><span class="s2">&quot;gui_macvim&quot;</span><span class="p">)</span>
+  <span class="k">set</span> <span class="nb">guifont</span><span class="p">=</span>Monaco:h13
+  <span class="k">set</span> <span class="nb">guioptions</span><span class="p">=</span>aAce
+  <span class="k">set</span> fuoptions<span class="p">=</span>maxvert<span class="p">,</span>maxhorz
+  <span class="k">set</span> <span class="nb">noballooneval</span>
+
+<span class="c">  &quot; resize current buffer by +/- 5</span>
+  <span class="nb">nnoremap</span> <span class="p">&lt;</span>M<span class="p">-</span>Right<span class="p">&gt;</span> :<span class="k">vertical</span> <span class="k">resize</span> <span class="p">+</span><span class="m">5</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+  <span class="nb">nnoremap</span> <span class="p">&lt;</span>M<span class="p">-</span>Left<span class="p">&gt;</span>  :<span class="k">vertical</span> <span class="k">resize</span> <span class="m">-5</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+  <span class="nb">nnoremap</span> <span class="p">&lt;</span>M<span class="p">-</span>Up<span class="p">&gt;</span>    :<span class="k">resize</span> <span class="m">-5</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+  <span class="nb">nnoremap</span> <span class="p">&lt;</span>M<span class="p">-</span>Down<span class="p">&gt;</span>  :<span class="k">resize</span> <span class="p">+</span><span class="m">5</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+
+<span class="c">  &quot; Command+Option+Right for next</span>
+  map <span class="p">&lt;</span>D<span class="p">-</span>M<span class="p">-</span>Right<span class="p">&gt;</span> :<span class="k">tabn</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+<span class="c">  &quot; Command+Option+Left for previous</span>
+  map <span class="p">&lt;</span>D<span class="p">-</span>M<span class="p">-</span>Left<span class="p">&gt;</span> :<span class="k">tabp</span><span class="p">&lt;</span>CR<span class="p">&gt;</span>
+
+<span class="c">  &quot; Automatically resize splits</span>
+<span class="c">  &quot; when resizing MacVim window</span>
+  autocmd <span class="nb">VimResized</span> * <span class="k">wincmd</span> <span class="p">=</span>
+<span class="k">endif</span>
+</code></pre></div>
+
+
+
+
+      </section>
+    </article>
+
+    <div id="hcard-Peter-Hellberg" class="vcard byline row remove-bottom">
+      <div class="three columns alpha">
+        <div class="photo-container">
+        </div>
+      </div>
+      <div class="nine columns omega">
+        <h2>
+          My name is
+          <span class="fn n"><span class="given-name">Peter</span>
+          <span class="family-name">Hellberg</span></span>. I’m a
+          <span class="role">Ruby Developer</span> in
+          <span class="adr"><span class="region">Stockholm</span>, <span class="country-name">Sweden</span>.</span>
+        </h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="sixteen columns">
+      <aside class="recent-articles">
+        <h2>Articles</h2>
+
+
+            <div class="article add-bottom">
+              <h3><a href="/from-ruby-to-lua/">From Ruby to Lua</a></h3>
+              <section class="article-summary">Getting to know Lua, a powerful, fast, lightweight, scripting language.</section>
+            </div>
+
+
+
+            <div class="article add-bottom">
+              <h3><a href="/7-segment-display/">7-Segment Display</a></h3>
+              <section class="article-summary">How to use Ruby to control a 7-Segment Display (via an Arduino).</section>
+            </div>
+
+
+
+
+
+            <div class="article add-bottom">
+              <h3><a href="/intro-to-celluloid/">Intro to Celluloid</a></h3>
+              <section class="article-summary">A framework used for concurrent object oriented programming in Ruby.</section>
+            </div>
+
+
+
+            <div class="article add-bottom">
+              <h3><a href="/elasticsearch-in-ruby/">Elasticsearch in Ruby</a></h3>
+              <section class="article-summary">A tiny project using the search engine elasticsearch in Ruby.</section>
+            </div>
+
+
+
+            <div class="article add-bottom">
+              <h3><a href="/from-ruby-to-go/">From Ruby to Go</a></h3>
+              <section class="article-summary">Getting to know Go, a fun little language from Google.</section>
+            </div>
+
+
+
+            <div class="article add-bottom">
+              <h3><a href="/tiny-api-with-nginx/">Tiny API with Nginx</a></h3>
+              <section class="article-summary">How to build a tiny REST API using Nginx, Memcached and GeoIP.</section>
+            </div>
+
+
+
+            <div class="article add-bottom">
+              <h3><a href="/from-ruby-to-lisp/">From Ruby to Lisp</a></h3>
+              <section class="article-summary">My first steps as a Ruby developer towards learning Lisp.</section>
+            </div>
+
+
+
+            <div class="article add-bottom">
+              <h3><a href="/goliath-and-redis/">Goliath and Redis</a></h3>
+              <section class="article-summary">Getting started with the non-blocking Ruby web server framework Goliath in combination with the advanced key-value store Redis.</section>
+            </div>
+
+
+      </aside>
+    </div>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </body>
+</html>
