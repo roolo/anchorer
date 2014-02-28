@@ -38,7 +38,7 @@ module Anchorer
         <p style="position:absolute;#{placement}:0;left:50%;">
           <a  href="#{@original_url}"
               name="original-conent-link"
-              style="color:#94C1BC;background-color:#ECECDA;font-size:10px;padding:10px">
+              style="color:#94C1BC;background-color:#ECECDA;font-size=10px;padding:10px">
             Original page
           </a>
         </p>\\1
