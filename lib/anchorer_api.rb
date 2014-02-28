@@ -32,5 +32,9 @@ module Anchorer
 
       @@redis[url_storage_key]
     end
+
+    get '/' do
+      File.read(File.expand_path './lib/home.html')
+    end
   end
 end
