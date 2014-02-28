@@ -26,9 +26,9 @@ module Anchorer
         anchorer = ::Anchorer::Anchorer.new params[:url]
 
         @@redis[url_storage_key] = anchorer.modify anchorer.content
-        # store page for a week
-        @@redis.expire url_storage_key, 604800
       end
+      # store page for another week
+      @@redis.expire url_storage_key, 604800
 
       @@redis[url_storage_key]
     end
