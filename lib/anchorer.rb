@@ -25,7 +25,7 @@ module Anchorer
       end
 
       # Fix adressess
-      output_content.gsub! /((src|href)=")\//, '\\2="%s://%s/'%[@original_url.scheme, @original_url.host]
+      output_content.gsub! /((src|href)=")\/{1}\w+/, '\\2="%s://%s/'%[@original_url.scheme, @original_url.host]
 
       # Add original content link
       output_content.gsub! /(<\/body>)/, link_box('top')
