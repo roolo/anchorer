@@ -20,8 +20,9 @@ module Anchorer
 
     def modify input_content
       # Prepend anchors to headers
-      output_content = input_content.gsub /(<h\d{1})/ do |match|
-        '<a name="heading-%s"></a>%s'%[Time.now.to_f.to_s,match]
+      output_content = input_content.gsub /(<\/h\d{1})/ do |match|
+        the_time = Time.now.to_f.to_s
+        '<a class="anchorer-heading" name="heading-%s" href="#heading-%s">#</a>%s'%[the_time, the_time,match]
       end
 
       # Fix adressess
@@ -41,7 +42,10 @@ module Anchorer
               style="color:#94C1BC;background-color:#ECECDA;font-size=10px;padding:10px">
             Original page
           </a>
-        </p>\\1
+        </p>
+        <style>
+          .anchorer-heading:not(:hover) { color: #E2E2F2 }
+        </style>\\1
       LINKBOX
     end
   end
