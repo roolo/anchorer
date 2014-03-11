@@ -11,7 +11,10 @@ module Anchorer
       'Sorry there was a nasty error - ' + env['sinatra.error'].message
     end
     configure do
-      @@redis = Redis.new host: 'localhost'
+      redis_uri = URI.parse ENV['REDIS_URL']
+      @@redis = Redis.new host:     redis_uri.host,
+                          port:     redis_uri.port,
+                          password: redis_uri.password
     end
     configure :test do
       set :show_exceptions, false
