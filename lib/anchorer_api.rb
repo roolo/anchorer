@@ -11,7 +11,7 @@ module Anchorer
       'Sorry there was a nasty error - ' + env['sinatra.error'].message
     end
     configure do
-      redis_uri = URI.parse ENV['REDIS_URL']
+      redis_uri = URI.parse ENV['REDIS_URL'] || 'localhost'
       @@redis = Redis.new host:     redis_uri.host,
                           port:     redis_uri.port,
                           password: redis_uri.password
@@ -25,7 +25,7 @@ module Anchorer
       url_hash = Digest::MD5.hexdigest params[:url]
       url_storage_key = 'anchorer-'+url_hash
 
-      unless @@redis[url_storage_key]
+      unless @@redis[url_storage_key] && false
         anchorer = ::Anchorer::Anchorer.new params[:url]
 
         @@redis[url_storage_key] = anchorer.modify anchorer.content
