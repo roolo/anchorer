@@ -5,6 +5,7 @@ module Anchorer
     attr_accessor :original_content
     attr_accessor :original_url
 
+    # @param [String] url
     def initialize url
       @original_url = URI URI.decode(url).strip
 
@@ -13,7 +14,6 @@ module Anchorer
 
     def content
       @original_content ||= open(@original_url).read
-      #@original_content ||= ''
 
       @original_content
     end
@@ -34,6 +34,7 @@ module Anchorer
       output_content
     end
 
+    # @param [String] placement [top|left|botom|right]
     def link_box placement
       <<-LINKBOX
         <p style="position:absolute;#{placement}:0;left:50%;">
