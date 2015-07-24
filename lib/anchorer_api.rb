@@ -25,7 +25,7 @@ module Anchorer
       url_hash = Digest::MD5.hexdigest params[:url]
       url_storage_key = 'anchorer-'+url_hash
 
-      unless @@redis[url_storage_key] && false
+      unless @@redis[url_storage_key]
         anchorer = ::Anchorer::Anchorer.new params[:url]
 
         @@redis[url_storage_key] = anchorer.modify anchorer.content
