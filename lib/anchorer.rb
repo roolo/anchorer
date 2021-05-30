@@ -7,7 +7,7 @@ module Anchorer
 
     # @param [String] url
     def initialize url
-      @original_url = URI URI.decode(url).strip
+      @original_url = URI url.strip
 
       raise 'Invalid url given!' unless @original_url.scheme.to_s =~ /^http/
     end
