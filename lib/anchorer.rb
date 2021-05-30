@@ -13,7 +13,7 @@ module Anchorer
     end
 
     def content
-      @original_content ||= open(@original_url).read
+      @original_content ||= URI.open(@original_url).read
 
       @original_content
     end

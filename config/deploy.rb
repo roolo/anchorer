@@ -1,12 +1,13 @@
-# config valid only for Capistrano 3.1
-lock '3.2.1'
+# config valid only for Capistrano 3.16
+#lock '3.2.1'
+lock '3.16.0'
 
 set :application, 'anchorer'
 set :rack_env,    'production'
-set :application, 'anchorer'
 set :repo_url,    'git@github.com:roolo/anchorer.git'
 
-set :rvm_ruby_version, 'ruby-2.2.2@anchorer'
+set :rvm_type,          :user                 # Defaults to: :auto
+set :rvm_ruby_version,  'ruby-3.0.0@anchorer' # Defaults to: 'default'
 
 # Default branch is :master
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call

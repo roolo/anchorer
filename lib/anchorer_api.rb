@@ -25,15 +25,15 @@ module Anchorer
       url_hash = Digest::MD5.hexdigest params[:url]
       url_storage_key = 'anchorer-'+url_hash
 
-      unless @@redis[url_storage_key]
+      unless @@redis.get(url_storage_key)
         anchorer = ::Anchorer::Anchorer.new params[:url]
 
-        @@redis[url_storage_key] = anchorer.modify anchorer.content
+        @@redis.set url_storage_key, anchorer.modify(anchorer.content)
       end
       # store page for another week
       @@redis.expire url_storage_key, 604800
 
-      @@redis[url_storage_key]
+      @@redis.get url_storage_key
     end
 
     get '/' do
