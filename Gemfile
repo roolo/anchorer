@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'sinatra',  '~> 2.1.0'
 gem 'redis',    '~> 4.2.5'
 gem 'rack',     '~> 2.2.3'
-gem 'puma',     '~> 5.3.2'
+gem 'puma',     '~> 5.6.4'
 gem 'unicorn',  '~> 6.0.0'
 
 
