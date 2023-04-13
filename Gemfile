@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra',  '~> 2.1.0'
+gem 'sinatra',  '~> 2.2.3'
 gem 'redis',    '~> 4.2.5'
 gem 'rack',     '~> 2.2.3'
 gem 'puma',     '~> 5.3.2'
